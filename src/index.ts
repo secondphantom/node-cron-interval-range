@@ -341,7 +341,8 @@ class CronIntervalRange {
 
       if (
         start.dayOfMonth === this.startEndRange.dayOfMonth[0] &&
-        end.dayOfMonth === this.startEndRange.dayOfMonth[1]
+        end.dayOfMonth === this.startEndRange.dayOfMonth[1] &&
+        interval.day < 2
       ) {
         dayOfMonthAry.push("*");
         return result;
@@ -390,7 +391,8 @@ class CronIntervalRange {
     };
     if (
       start.monthOfYear === this.startEndRange.monthOfYear[0] &&
-      end.monthOfYear === this.startEndRange.monthOfYear[1]
+      end.monthOfYear === this.startEndRange.monthOfYear[1] &&
+      interval.month < 2
     ) {
       monthAry.push("*");
       return result;
@@ -446,6 +448,9 @@ class CronIntervalRange {
       for (const key of orderKeys) {
         let pushResult = cronRaw[key as keyof typeof cronRaw].join(",");
         if (
+          (key === "sec" &&
+            pushResult ===
+              "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59") ||
           (key === "min" &&
             pushResult ===
               "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59") ||
@@ -475,6 +480,7 @@ class CronIntervalRange {
     }
   ) => {
     const cronAry = this.getCronRaw(interval, options);
+
     const cronStrAry = this.getCronStr(cronAry);
     return cronStrAry;
   };
@@ -496,6 +502,7 @@ class CronIntervalRange {
   ): Array<cron.ScheduledTask> => {
     const cronAry = this.getCronRaw(interval, options);
     const cronStrAry = this.getCronStr(cronAry);
+    console.log(cronStrAry);
 
     return cronStrAry.map((cronStr) => {
       return cron.schedule(cronStr, func, options?.scheduleOptions);
