@@ -1,0 +1,18 @@
+{
+  "name": "cron-interval-range",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "basicEg": "node dist/examples/basic.js",
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node-cron": "^3.0.6",
+    "node-cron": "^3.0.2"
+  }
+}
