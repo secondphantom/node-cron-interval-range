@@ -1,5 +1,23 @@
 import cron from "node-cron";
 
+export type CreateCronStrInput = {
+  interval: IntervalInput;
+  options?: {
+    start?: StartEndInput;
+    end?: StartEndInput;
+  };
+};
+
+export type CreateScheduleInput = {
+  interval: IntervalInput;
+  func: (now: Date | "manual") => void;
+  options?: {
+    start?: StartEndInput;
+    end?: StartEndInput;
+    scheduleOptions?: cron.ScheduleOptions;
+  };
+};
+
 const isSetEqual = (set1: Set<any>, set2: Set<any>) => {
   if (set1.size !== set2.size) return false;
   let iter = set1.size <= set2.size ? set1 : set2;
@@ -83,9 +101,9 @@ class CronIntervalRange {
   private intervalRange = {
     month: [1, 11],
     day: [1, 31],
-    hour: [0, 23],
-    min: [0, 59],
-    sec: [0, 59],
+    hour: [0, Infinity],
+    min: [0, Infinity],
+    sec: [0, Infinity],
   };
 
   private startEndRange = {
@@ -215,6 +233,10 @@ class CronIntervalRange {
 
     if (intervalSec <= 0) {
       throw new Error("'interval' must be at least 1 second.");
+    } else if (intervalSec > 24 * 60 * 60) {
+      throw new Error(
+        "The sum of 'hour', 'min' and 'sec' shall not exceed 24 hours."
+      );
     }
 
     const currentTime = {
@@ -502,7 +524,6 @@ class CronIntervalRange {
   ): Array<cron.ScheduledTask> => {
     const cronAry = this.getCronRaw(interval, options);
     const cronStrAry = this.getCronStr(cronAry);
-    console.log(cronStrAry);
 
     return cronStrAry.map((cronStr) => {
       return cron.schedule(cronStr, func, options?.scheduleOptions);
