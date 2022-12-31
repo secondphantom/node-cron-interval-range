@@ -6,11 +6,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "basicEg": "node dist/examples/basic.js",
+    "build": "rmdir /s /q dist && tsc --project tsconfig.prd.json",
     "watch": "tsc -w"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Second Phantom <second2phantom@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "@types/node-cron": "^3.0.6",
     "node-cron": "^3.0.2"
