@@ -1,6 +1,6 @@
 import cron from "node-cron";
 
-export type CreateCronStrInput = {
+export type CreateCronStrInputObj = {
   interval: IntervalInput;
   options?: {
     start?: StartEndInput;
@@ -8,9 +8,9 @@ export type CreateCronStrInput = {
   };
 };
 
-export type CreateScheduleInput = {
+export type CreateScheduleInputObj = {
   interval: IntervalInput;
-  func: (now: Date | "manual") => void;
+  func: (...args: any[]) => any;
   options?: {
     start?: StartEndInput;
     end?: StartEndInput;
@@ -99,7 +99,7 @@ export type CronRawResult = {
 
 class CronIntervalRange {
   private intervalRange = {
-    month: [1, 11],
+    month: [1, 12],
     day: [1, 31],
     hour: [0, Infinity],
     min: [0, Infinity],
@@ -488,12 +488,6 @@ class CronIntervalRange {
     });
   };
 
-  /**
-   * Returns an array that contains cron string.
-   * @param start Default 00:00:00 EveryDay EveryMonth
-   * @param end Default 24:00:00 EveryDay EveryMonth
-   * @param interval
-   */
   createCronStr = (
     interval: IntervalInput,
     options?: {
@@ -507,15 +501,9 @@ class CronIntervalRange {
     return cronStrAry;
   };
 
-  /**
-   * Returns an array that contains cron schedule.
-   * @param start Default 00:00:00 EveryDay EveryMonth
-   * @param end Default 24:00:00 EveryDay EveryMonth
-   * @param interval
-   */
   createSchedule = (
     interval: IntervalInput,
-    func: (now: Date | "manual") => void,
+    func: (...args: any[]) => any,
     options?: {
       start?: StartEndInput;
       end?: StartEndInput;

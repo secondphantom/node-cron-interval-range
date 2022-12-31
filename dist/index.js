@@ -21,7 +21,7 @@ const isSetEqual = (set1, set2) => {
 class CronIntervalRange {
     constructor() {
         this.intervalRange = {
-            month: [1, 11],
+            month: [1, 12],
             day: [1, 31],
             hour: [0, Infinity],
             min: [0, Infinity],
@@ -316,23 +316,11 @@ class CronIntervalRange {
                 return cronStrAry.join(" ");
             });
         };
-        /**
-         * Returns an array that contains cron string.
-         * @param start Default 00:00:00 EveryDay EveryMonth
-         * @param end Default 24:00:00 EveryDay EveryMonth
-         * @param interval
-         */
         this.createCronStr = (interval, options) => {
             const cronAry = this.getCronRaw(interval, options);
             const cronStrAry = this.getCronStr(cronAry);
             return cronStrAry;
         };
-        /**
-         * Returns an array that contains cron schedule.
-         * @param start Default 00:00:00 EveryDay EveryMonth
-         * @param end Default 24:00:00 EveryDay EveryMonth
-         * @param interval
-         */
         this.createSchedule = (interval, func, options) => {
             const cronAry = this.getCronRaw(interval, options);
             const cronStrAry = this.getCronStr(cronAry);
